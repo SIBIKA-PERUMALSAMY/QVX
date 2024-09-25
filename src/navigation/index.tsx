@@ -6,6 +6,10 @@ import Walkthroughh from '../container/Walkthrough2';
 import Walkthroughhh from '../container/Walkthrough3';
 import LoginScreen from '../container/LoginPage';
 import LoginPage from '../container/LoginPage';
+import ForgotPasswordMob from '../container/ForgotPasswordMob';
+import OTPverification from '../container/OTPVerification';
+import CreateNewPassword from '../container/CreateNewPassword';
+import Dashboard from '../container/Dashboard';
 
 const Stack = createStackNavigator(); // Creating the Stack Navigator
 
@@ -31,6 +35,26 @@ const MyStack: React.FC = () => {
                 name={routes.LoginPage}
                 component={LoginPage}
                 options={{ title: 'Login Page', headerShown: false }}
+            />
+             <Stack.Screen
+                name={routes.ForgotPasswordMob}
+                component={ForgotPasswordMob}
+                options={{ title: 'Forgot Password', headerShown: false }}
+            />
+            <Stack.Screen
+                name={routes.OTPverification}
+                component={OTPverification}
+                options={{ title: 'OTP Verification', headerShown: false }}
+            />
+            <Stack.Screen
+                name={routes.CreateNewPassword}
+                component={CreateNewPassword}
+                options={{ title: 'Create New Password', headerShown: false }}
+            />
+            <Stack.Screen
+                name={routes.Dashboard}
+                component={Dashboard}
+                options={{ title: 'Dashboard', headerShown: false }}
             />
         </Stack.Navigator>
     );

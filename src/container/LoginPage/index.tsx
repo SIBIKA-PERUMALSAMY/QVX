@@ -168,7 +168,7 @@
 
 
 
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   View,
   StyleSheet,
@@ -177,66 +177,80 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import NextButton from '../../component/Button';
-import {useNavigation} from '@react-navigation/native';
-import {routes} from '../../routes';
-import {IMAGE} from '../../images/image';
+import { useNavigation } from '@react-navigation/native';
+import { routes } from '../../routes';
+import { IMAGE } from '../../images/image';
 import CustomTextInput from '../../component/CustomTextInput';
 
 const LoginPage: React.FC = () => {
   const navigation = useNavigation();
-  const [patientId, setPatientId] = useState<string>('');
+  const [customerId, setCustomerId] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const [errors, setErrors] = useState<{customerId: string; password: string}>({
+  const [errors, setErrors] = useState<{ customerId: string; password: string }>({
     customerId: '',
     password: '',
   });
   const [loading, setLoading] = useState<boolean>(false);
 
-  // const handleLogin = async () => {
-  //   let hasErrors = false;
+  const handleLogin = async () => {
+    let hasErrors = false;
 
-  //   if (patientId.length < 3) {
-  //     setErrors(prevErrors => ({
-  //       ...prevErrors,
-  //       patientId: 'Enter valid Patient ID',
-  //     }));
-  //     hasErrors = true;
-  //   }
+    // Validation for Patient ID
+    if (customerId.length < 3) {
+      setErrors(prevErrors => ({
+        ...prevErrors,
+        customerId: 'Enter a valid Customer ID',
+      }));
+      hasErrors = true;
+    }
 
-  //   if (password.length < 5) {
-  //     setErrors(prevErrors => ({...prevErrors, password: 'Invalid Password'}));
-  //     hasErrors = true;
-  //   }
+    // Validation for Password
+    if (password.length < 5) {
+      setErrors(prevErrors => ({
+        ...prevErrors,
+        password: 'Invalid Password',
+      }));
+      hasErrors = true;
+    }
 
-  //   if (hasErrors) {
-  //     Alert.alert('Login Error', 'Invalid Patient ID or Password.');
-  //   } else {
-  //     setLoading(true);
-  //     const data = {
-  //       patientID: patientId,
-  //       password: password,
-  //     };
+    // Show alert if any validation errors exist
+    if (hasErrors) {
+      return; // No need to proceed if there are errors
+    }
 
-  //     try {
-  //       const response = await axios.post(
-  //         `${Baseurl}/user/patientLogin`,
-  //         data,
-  //         {
-  //           headers: {
-  //             'Content-Type': 'application/json',
-  //           },
-  //         },
-  //       );
-  //       setLoading(false);
-  //       navigation.navigate(routes.BottomTab, {
-  //         User: response.data.user,
-  //       });
-  //     } catch (error) {
-  //       setLoading(false);
-  //       Alert.alert('Login Error', 'Invalid Patient ID or Password.');
-  //     }
-  //   }
-  // };
+    // Uncomment the following code to integrate backend later
+    /*
+    setLoading(true);
+    const data = {
+      patientID: patientId,
+      password: password,
+    };
+
+    try {
+      const response = await axios.post(
+        `https://yourapiurl.com/user/patientLogin`,
+        data,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      );
+
+      setLoading(false);
+      // Navigate to Dashboard on successful login
+      navigation.navigate(routes.Dashboard, {
+        patientDetails: response.data.user,
+      });
+    } catch (error) {
+      setLoading(false);
+      Alert.alert('Login Error', 'Invalid Patient ID or Password.');
+    }
+    */
+
+    // For now, simulate successful navigation after validation
+    navigation.navigate(routes.Dashboard);
+  };
 
   return loading ? (
     <View style={styles.loaderContainer}>
@@ -253,13 +267,14 @@ const LoginPage: React.FC = () => {
 
       <CustomTextInput
         label="Customer ID"
-        value={patientId}
+        value={customerId}
         placeholder="Enter Customer ID..."
         onChangeText={text => {
-          setPatientId(text);
-          setErrors(prevErrors => ({...prevErrors, patientId: ''}));
+          setCustomerId(text);
+          setErrors(prevErrors => ({ ...prevErrors, patientId: '' }));
         }}
         errorMessage={errors.customerId}
+        containerStyle={errors.customerId ? styles.errorInput : {}}
       />
       <CustomTextInput
         label="Password"
@@ -267,27 +282,22 @@ const LoginPage: React.FC = () => {
         placeholder="Enter Password..."
         onChangeText={text => {
           setPassword(text);
-          setErrors(prevErrors => ({...prevErrors, password: ''}));
+          setErrors(prevErrors => ({ ...prevErrors, password: '' }));
         }}
         isPassword={true}
         errorMessage={errors.password}
+        containerStyle={errors.password ? styles.errorInput : {}}
       />
-
-      {/* <Text
-        style={styles.forgotPassword}
-        onPress={() => navigation.navigate(routes.ForgotPasswordEmail)}>
-        Forgot Password?
-      </Text> */}
 
       <NextButton
-        onPress={() => { /* handleLogin will be added later */ }}
+        onPress={handleLogin}
         text={'Next'}
         buttonStyle={styles.nextButton}
-        
       />
+
       <Text
         style={styles.forgotPassword}
-        onPress={() => navigation.navigate(routes.ForgotPasswordEmail)}>
+        onPress={() => navigation.navigate(routes.ForgotPasswordMob)}>
         Forgot Password?
       </Text>
     </View>
@@ -309,6 +319,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 60,
   },
+  // image: {
+  //   width: 200,
+  //   height: 200,
+  // },
   heading: {
     fontSize: 24,
     fontWeight: 'bold',
@@ -326,16 +340,17 @@ const styles = StyleSheet.create({
     width: '90%',
     textAlign: 'center',
     color: '#666',
-    // marginBottom: 10,
-    // marginTop: 10,
-    // marginLeft: 10,
-    margin:20,
+    margin: 20,
     bottom: -70,
   },
   nextButton: {
     marginVertical: 60,
     margin: 30,
-    borderRadius:2,
+    borderRadius: 2,
+  },
+  errorInput: {
+    borderColor: 'red',
+    borderWidth: 1,
   },
 });
 
