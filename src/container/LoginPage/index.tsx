@@ -245,7 +245,7 @@ const LoginPage: React.FC = () => {
   ) : (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
-        <Image source={IMAGE.AppLogoImg} style={styles.image} />
+        <Image source={IMAGE.LoginLogoImg} style={styles.image} />
       </View>
 
       <Text style={styles.heading}>Login</Text>
@@ -273,17 +273,23 @@ const LoginPage: React.FC = () => {
         errorMessage={errors.password}
       />
 
-      <Text
+      {/* <Text
         style={styles.forgotPassword}
         onPress={() => navigation.navigate(routes.ForgotPasswordEmail)}>
         Forgot Password?
-      </Text>
+      </Text> */}
 
       <NextButton
         onPress={() => { /* handleLogin will be added later */ }}
         text={'Next'}
         buttonStyle={styles.nextButton}
+        
       />
+      <Text
+        style={styles.forgotPassword}
+        onPress={() => navigation.navigate(routes.ForgotPasswordEmail)}>
+        Forgot Password?
+      </Text>
     </View>
   );
 };
@@ -301,7 +307,7 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     alignItems: 'center',
-    marginBottom: 20,
+    marginBottom: 60,
   },
   heading: {
     fontSize: 24,
@@ -318,14 +324,18 @@ const styles = StyleSheet.create({
   },
   forgotPassword: {
     width: '90%',
-    textAlign: 'right',
+    textAlign: 'center',
     color: '#666',
-    marginBottom: 20,
-    marginTop: 10,
-    marginLeft: 10,
+    // marginBottom: 10,
+    // marginTop: 10,
+    // marginLeft: 10,
+    margin:20,
+    bottom: -70,
   },
   nextButton: {
-    margin: 40,
+    marginVertical: 60,
+    margin: 30,
+    borderRadius:2,
   },
 });
 
