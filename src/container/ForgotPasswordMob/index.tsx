@@ -165,9 +165,9 @@ import { routes } from '../../routes';
 import { IMAGE } from '../../images/image';
 
 const countryCodes = [
-  { code: '+91', country: 'India' },
-  { code: '+1', country: 'USA' },
-  { code: '+44', country: 'UK' },
+  { code: '+91', country: 'India', minLength: 10, maxLength: 10 },
+  { code: '+1', country: 'USA', minLength: 10, maxLength: 10 },
+  { code: '+44', country: 'UK', minLength: 10, maxLength: 10 },
   // Add more country codes as needed
 ];
 
@@ -175,10 +175,21 @@ const ForgotPasswordMob: React.FC = () => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [selectedCountryCode, setSelectedCountryCode] = useState('+91');
   const [modalVisible, setModalVisible] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(''); // State to hold error message
   const navigation = useNavigation();
 
   const handleNavigateToOtpVerification = () => {
-    navigation.navigate(routes.OTPverification); // Navigate to OTP verification page
+    const selectedCountry = countryCodes.find((c) => c.code === selectedCountryCode);
+    const phoneNumberLength = phoneNumber.length;
+
+    // Validate phone number based on the selected country code
+    if (selectedCountry && (phoneNumberLength < selectedCountry.minLength || phoneNumberLength > selectedCountry.maxLength)) {
+      // setErrorMessage(`Mobile number must be ${selectedCountry.minLength} digits for ${selectedCountry.country}`);
+      setErrorMessage(`Mobile number must be ${selectedCountry.minLength} digits`);
+    } else {
+      setErrorMessage(''); // Clear error message if valid
+      navigation.navigate(routes.OTPverification); // Navigate to OTP verification page
+    }
   };
 
   const handleCountryCodeSelect = (code: string) => {
@@ -205,9 +216,12 @@ const ForgotPasswordMob: React.FC = () => {
           value={phoneNumber}
           onChangeText={setPhoneNumber}
           keyboardType="phone-pad" // Use phone keyboard type
-          style={styles.input}
+          style={[styles.input, errorMessage ? styles.inputError : null]} // Apply error style if invalid
         />
       </View>
+
+      {/* Display error message if any */}
+      {errorMessage ? <Text style={styles.errorText}>{errorMessage}</Text> : null}
 
       <NextButton
         onPress={handleNavigateToOtpVerification} // Pass the navigation handler
@@ -292,6 +306,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 30,
   },
+  inputError: {
+    borderColor: 'red',
+  },
   nextButton: {
     width: '80%',
     margin: 30,
@@ -305,10 +322,17 @@ const styles = StyleSheet.create({
   noAccountText: {
     color: 'rgba(102, 102, 102, 1)',
     marginRight: 5,
+    marginTop:100,
   },
   createAccountText: {
     color: '#1A4D8F',
     fontWeight: 'bold',
+    marginTop:100,
+  },
+  errorText: {
+    color: 'red',
+    marginTop: -15,
+    marginBottom: 10,
   },
   modalView: {
     flex: 1,

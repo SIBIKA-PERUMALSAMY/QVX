@@ -1,5 +1,3 @@
-import Dashboard from "../../container/Dashboard";
-
 export const IMAGE: any = {
     Walkthrough1Img: require('./Walkthrough1Images/Walkthrough1.i.png'),
     Walkthrough2Img: require('./Walkthrough2Images/Walkthrough2.i.png'),
@@ -12,4 +10,11 @@ export const IMAGE: any = {
     BigDropImg:require('./BigDropImages/BigDrop.i.png'),
     SmallDropImg:require('./SmallDropImages/SmallDrop.i.png'),
     DashboardImg:require('./DashboardImages/DashboardImg.i.png'),
+    BigDropDash:require('./BigDropDashImages/BigDropDash.i.png'),
+    HomeDashImg:require('./HomeDashImages/HomeDash.i.png'),
+    HomeTempDashImg:require('./HomeTempDashImages/DashTempHome.i.png'),
+    ProfileAvatarImg: require('./ProfileAvatarImages/ProfileAvatar.i.png'),
+    Splash1LogoImg: require('./Splash1Images/Splash1Logo.i.png'),
+    Splash2LogoImg: require('./Splash2Images/Splash2Logo.i.png'),
+    BotLogoSplashImg: require('./BotLogoSplashImages/BotLogoSplash.i.png'),
 };

@@ -23,13 +23,17 @@ const CreateNewPassword: React.FC = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [isPasswordVisible, setPasswordVisible] = useState(false);
   const [isConfirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
+  const [passwordError, setPasswordError] = useState(''); // State for error message
   const navigation = useNavigation();
 
   const handleConfirm = () => {
-    if (password === confirmPassword) {
-      setModalVisible(true);
+    if (!password || !confirmPassword) {
+      setPasswordError('Password fields cannot be empty.'); // Set error if either field is empty
+    } else if (password !== confirmPassword) {
+      setPasswordError('Passwords do not match.'); // Set error if passwords don't match
     } else {
-      Alert.alert('Password Mismatch', 'Passwords do not match.');
+      setPasswordError(''); // Clear error if passwords match and are not empty
+      setModalVisible(true);
     }
   };
 
@@ -104,7 +108,7 @@ const CreateNewPassword: React.FC = () => {
           secureTextEntry={!isConfirmPasswordVisible}
           value={confirmPassword}
           onChangeText={setConfirmPassword}
-          style={styles.input}
+          style={[styles.input, passwordError ? styles.inputError : null]} // Apply red border on error
           placeholder="Confirm new password"
         />
         <TouchableOpacity
@@ -114,12 +118,14 @@ const CreateNewPassword: React.FC = () => {
         </TouchableOpacity>
       </View>
 
+      {/* Error Message */}
+      {passwordError ? <Text style={styles.errorText}>{passwordError}</Text> : null}
+
       <NextButton
         onPress={handleConfirm}
         text={'Confirm'}
         buttonStyle={styles.nextButton}
       />
-
     </View>
   );
 };
@@ -161,6 +167,13 @@ const styles = StyleSheet.create({
     borderColor: 'gray',
     borderWidth: 1,
     borderRadius: 30,
+  },
+  inputError: {
+    borderColor: 'red', // Red border for error
+  },
+  errorText: {
+    color: 'red', // Red text for error message
+    marginBottom: 20,
   },
   eyeIcon: {
     position: 'absolute',
@@ -212,66 +225,65 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   SmallDrop1:{
-position:'absolute',
-top: 15,
-left: 120,
+    position:'absolute',
+    top: 15,
+    left: 120,
   },
   SmallDrop2:{
     position:'absolute',
     top: 45,
     left: 80,
-      },
-      SmallDrop3:{
-        position:'absolute',
-        top: 30,
-        left: 190,
-          },
-          SmallDrop4:{
-            position:'absolute',
-            top: 15,
-            left: 240,
-              },
-              SmallDrop5:{
-                position:'absolute',
-                top: 120,
-                left: 270,
-                  },
-                  SmallDrop6:{
-                    position:'absolute',
-                    top: 100,
-                    left: 220,
-                      },
-                      SmallDrop7:{
-                        position:'absolute',
-                        top: 140,
-                        left: 30,
-                          },
-                          SmallDrop8:{
-                            position:'absolute',
-                            top: 70,
-                            left: 40,
-                              },
-                              BigDrop1:{
-                                position:'absolute',
-                                top: 60,
-                                left: 250,
-                                  },
-
-                                  BigDrop2:{
-                                    position:'absolute',
-                                    top: 30,
-                                    left: 20,
-                                      },
-                                      BigDrop3:{
-                                        position:'absolute',
-                                        top: 120,
-                                        left: 60,
-                                          },
-                                          BigDrop4:{
-                                            position:'absolute',
-                                            top: 130,
-                                            left: 220,
-                                              },
+  },
+  SmallDrop3:{
+    position:'absolute',
+    top: 30,
+    left: 190,
+  },
+  SmallDrop4:{
+    position:'absolute',
+    top: 15,
+    left: 240,
+  },
+  SmallDrop5:{
+    position:'absolute',
+    top: 120,
+    left: 270,
+  },
+  SmallDrop6:{
+    position:'absolute',
+    top: 100,
+    left: 220,
+  },
+  SmallDrop7:{
+    position:'absolute',
+    top: 140,
+    left: 30,
+  },
+  SmallDrop8:{
+    position:'absolute',
+    top: 70,
+    left: 40,
+  },
+  BigDrop1:{
+    position:'absolute',
+    top: 60,
+    left: 250,
+  },
+  BigDrop2:{
+    position:'absolute',
+    top: 30,
+    left: 20,
+  },
+  BigDrop3:{
+    position:'absolute',
+    top: 120,
+    left: 60,
+  },
+  BigDrop4:{
+    position:'absolute',
+    top: 130,
+    left: 220,
+  },
 });
 
 export default CreateNewPassword;

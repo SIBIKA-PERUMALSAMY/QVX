@@ -1,4 +1,7 @@
 
+
+
+
 export const routes = {
     Walkthrough:'Walkthrough',
     Walkthroughh:'Walkthroughh',
@@ -8,4 +11,7 @@ export const routes = {
     OTPverification:'OTPverification',
     CreateNewPassword:'CreateNewPassword',
     Dashboard:'Dashboard',
+    Settings:'Settings',
+    NotificationPage:'NotificationPage',
+    SplashScreen:'SplashScreen',
 };
