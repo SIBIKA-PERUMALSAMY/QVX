@@ -403,26 +403,23 @@ import { routes } from '../../routes';
 import ServiceBox from '../../component/ServicesBox';
 import AppointmentCard from '../../component/AppointmentCard';
 import moment from 'moment';
+import axios from 'axios'; 
+
+const Baseurl = 'https://vx-bend-1.onrender.com';
 
 const Dashboard = ({ route }: any) => {
-  const params = route.params?.patientDetails || {};
-  const [Appointments, setAppointments] = useState([]);
-  const [viewAppointments, setViewAppointments] = useState([]);
-  const [isView, setIsView] = useState(true);
+  const params = route.params?.customerDetails || {};
+  const [kitsData, setKitsData] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const navigation = useNavigation();
 
-  const getStatus = (date: Date) => {
-    const today = Number(moment().format('YYYYMMDD'));
-    const givenDate = Number(moment(date).format('YYYYMMDD'));
-
-    if (givenDate === today) {
-      return 'Booking';
-    } else if (givenDate > today) {
-      return 'Upcoming';
-    } else {
-      return 'Completed';
-    }
-  };
+  // const fetchKitsData = async () => {
+  //   try{
+  //     const response = await axios.post(
+  //       `${Baseurl}/http://localhost:3001/kit/get-kits/QVX20241003-001`)
+  //   }
+  
+  // };
 
   useEffect(() => {
     // Fetch  data
@@ -455,15 +452,6 @@ const Dashboard = ({ route }: any) => {
 >
   <Image style={styles.ProfileAvatar} source={IMAGE.ProfileAvatarImg} />
 </TouchableOpacity>
-
-
-
-
-
-
-
-
-
               <Text style={styles.welcomeText}>Welcome Back!</Text>
               <Text style={styles.userNameText}>Ms. {params.name}</Text>
             </View>

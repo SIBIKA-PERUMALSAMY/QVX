@@ -61,14 +61,14 @@ export const Settings = ({route}: {route: any}) => {
         </View>
         <View style={styles.rightContainer}>
           <Text style={styles.name}>{User.name}</Text>
-          <Text style={[styles.name, {fontSize: 16, fontWeight: '600'}]}>
-            Ms.
+          {/* <Text style={[styles.name, {fontSize: 16, fontWeight: '600'}]}>
+            Ms. */}
             {/* 27.07.1980 */}
-          </Text>
-          <Text style={[styles.name, {fontSize: 16, fontWeight: '600'}]}>
-            +91 0987654321
+          {/* </Text> */}
+          {/* <Text style={[styles.name, {fontSize: 16, fontWeight: '600'}]}>
+            +91 0987654321 */}
             {/* 27.07.1980 */}
-          </Text>
+          {/* </Text> */}
           {User.email ? (
             <Text style={[styles.name, {fontSize: 16, fontWeight: '600'}]}>
               {User.email}
@@ -278,3 +278,4 @@ const styles = StyleSheet.create({
 });
 
 export default Settings;
+
