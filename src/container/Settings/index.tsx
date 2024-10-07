@@ -9,15 +9,15 @@ import {
   Modal,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import { ICONS } from '../../images/image/icon';
+import {ICONS} from '../../images/image/icon';
 import {COLORS} from '../../component/Colors';
 import CustomRow from '../../component/SettingsItem';
 import {routes} from '../../routes';
-import { IMAGE } from '../../images/image';
+import {IMAGE} from '../../images/image';
 
 export const Settings = ({route}: {route: any}) => {
   const {User} = route.params;
-
+  console.log(User, 'user');
   const navigation = useNavigation();
   const [isSwitchOn, setIsSwitchOn] = useState(false);
   const [notificationOn, setNotificationOn] = useState(false);
@@ -61,14 +61,7 @@ export const Settings = ({route}: {route: any}) => {
         </View>
         <View style={styles.rightContainer}>
           <Text style={styles.name}>{User.name}</Text>
-          {/* <Text style={[styles.name, {fontSize: 16, fontWeight: '600'}]}>
-            Ms. */}
-            {/* 27.07.1980 */}
-          {/* </Text> */}
-          {/* <Text style={[styles.name, {fontSize: 16, fontWeight: '600'}]}>
-            +91 0987654321 */}
-            {/* 27.07.1980 */}
-          {/* </Text> */}
+
           {User.email ? (
             <Text style={[styles.name, {fontSize: 16, fontWeight: '600'}]}>
               {User.email}
@@ -77,7 +70,7 @@ export const Settings = ({route}: {route: any}) => {
             ''
           )}
           <Text style={[styles.name, {fontSize: 16, fontWeight: '600'}]}>
-            {User.contactNo}
+            {User.contactNumber}
           </Text>
         </View>
       </View>
@@ -165,7 +158,6 @@ const styles = StyleSheet.create({
   },
   avatarContainer: {
     position: 'relative',
-    
   },
   avatar: {
     width: 70,
@@ -278,4 +270,3 @@ const styles = StyleSheet.create({
 });
 
 export default Settings;
-
