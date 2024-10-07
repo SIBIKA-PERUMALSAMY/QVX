@@ -175,13 +175,17 @@ import {
   Text,
   Image,
   ActivityIndicator,
+  Alert,
 } from 'react-native';
 import NextButton from '../../component/Button';
 import { useNavigation } from '@react-navigation/native';
 import { routes } from '../../routes';
 import { IMAGE } from '../../images/image';
 import CustomTextInput from '../../component/CustomTextInput';
+import axios from 'axios';
+// let Baseurl:string="http://localhost:3001";
 
+const Baseurl = 'https://vx-bend-1.onrender.com';
 const LoginPage: React.FC = () => {
   const navigation = useNavigation();
   const [customerId, setCustomerId] = useState<string>('');
@@ -217,6 +221,36 @@ const LoginPage: React.FC = () => {
     if (hasErrors) {
       return; // No need to proceed if there are errors
     }
+    else {
+      setLoading(true);
+      const data = {
+        customerId: customerId,
+        password: password,
+      };
+      try {
+        const response = await axios.post(
+         `${Baseurl}/customer/login`,
+          data,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          },
+          
+        );
+
+        setLoading(false);
+        console.log(response,'response');
+        // Navigate to Dashboard on successful login
+        navigation.navigate(routes.Dashboard);
+        // navigation.navigate(routes.Dashboard, {
+        //   patientDetails: response.data.user,
+        // });
+      } catch (error) {
+        setLoading(false);
+        Alert.alert('Login Error', 'Invalid Patient ID or Password.');
+      }
+    }
 
     // Uncomment the following code to integrate backend later
     /*
@@ -249,7 +283,7 @@ const LoginPage: React.FC = () => {
     */
 
     // For now, simulate successful navigation after validation
-    navigation.navigate(routes.Dashboard);
+    // navigation.navigate(routes.Dashboard);
   };
 
   return loading ? (
