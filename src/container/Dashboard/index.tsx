@@ -238,25 +238,26 @@ const Dashboard = ({route}: any) => {
 
         {/* Enlarged View */}
         <View style={styles.enlargeViewContainer}>
-          {kitsData.length &&
+          {kitsData.length > 0 &&
             kitsData[KitIndex].cameraStatuses.filter(
               (val: any) => val.status != 'Online',
             ).length > 0 && (
               <Text style={styles.sectionTitle}>Enlarge View</Text>
             )}
 
-          {kitsData[KitIndex].cameraStatuses
-            .filter((val: any) => val.status != 'Online')
-            .map((val: any) => {
-              return (
-                <View style={styles.warningBox}>
-                  <Text style={styles.warningText}>
-                    ⚠️ Motion Detected on ({val.cameraNumber}) please ensure the
-                    problem {val.Coverage}
-                  </Text>
-                </View>
-              );
-            })}
+          {kitsData[KitIndex]?.cameraStatuses &&
+            kitsData[KitIndex].cameraStatuses
+              .filter((val: any) => val.status != 'Online')
+              .map((val: any) => {
+                return (
+                  <View style={styles.warningBox}>
+                    <Text style={styles.warningText}>
+                      ⚠️ Motion Detected on ({val.cameraNumber}) please ensure
+                      the problem {val.Coverage}
+                    </Text>
+                  </View>
+                );
+              })}
 
           <View style={styles.camerasGrid}>
             {kitsData.length > 0 &&
