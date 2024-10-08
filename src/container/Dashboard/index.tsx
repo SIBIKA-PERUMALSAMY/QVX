@@ -16,6 +16,7 @@ import {COLORS} from '../../component/Colors';
 import {routes} from '../../routes';
 import ServiceBox from '../../component/ServicesBox';
 import AppointmentCard from '../../component/AppointmentCard';
+import moment from 'moment';
 import axios from 'axios';
 
 const Baseurl = 'https://vx-bend-1.onrender.com';
@@ -69,7 +70,7 @@ const Dashboard = ({route}: any) => {
           address: _data.address,
           pincode: _data.pincode,
           createdAt: _data.createdAt,
-          version: _data.__v,
+          version: data._v,
           status: _data.status,
         };
         setcustomerDetails({...data});
@@ -237,29 +238,30 @@ const Dashboard = ({route}: any) => {
 
         {/* Enlarged View */}
         <View style={styles.enlargeViewContainer}>
-          {kitsData.length &&
-            kitsData[KitIndex]?.cameraStatuses?.filter(
+          {kitsData.length > 0 &&
+            kitsData[KitIndex].cameraStatuses.filter(
               (val: any) => val.status != 'Online',
             ).length > 0 && (
               <Text style={styles.sectionTitle}>Enlarge View</Text>
             )}
 
-          {/* {kitsData[KitIndex]?.cameraStatuses
-            ?.filter((val: any) => val.status != 'Online')
-            .map((val: any) => {
-              return (
-                <View style={styles.warningBox}>
-                  <Text style={styles.warningText}>
-                  `Motion Detected on ${val.cameraNumber} please ensure the
-                    problem ${val.Coverage}`
-                  </Text>
-                </View>
-              );
-            })} */}
+          {kitsData[KitIndex]?.cameraStatuses &&
+            kitsData[KitIndex].cameraStatuses
+              .filter((val: any) => val.status != 'Online')
+              .map((val: any) => {
+                return (
+                  <View style={styles.warningBox}>
+                    <Text style={styles.warningText}>
+                      ⚠️ Motion Detected on ({val.cameraNumber}) please ensure
+                      the problem {val.Coverage}
+                    </Text>
+                  </View>
+                );
+              })}
 
           <View style={styles.camerasGrid}>
-            {kitsData?.length > 0 &&
-              kitsData[KitIndex]?.cameraStatuses.map((val: any) => {
+            {kitsData.length > 0 &&
+              kitsData[KitIndex].cameraStatuses.map((val: any) => {
                 return (
                   <View style={styles.cameraFeed} key={val.id || Math.random()}>
                     <Image

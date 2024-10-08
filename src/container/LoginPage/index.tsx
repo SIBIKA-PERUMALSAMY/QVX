@@ -182,7 +182,6 @@
 
 // export default LoginPage;
 
-
 import React, {useState} from 'react';
 import {
   View,
@@ -203,8 +202,8 @@ const Baseurl = 'https://vx-bend-1.onrender.com';
 
 const LoginPage: React.FC = () => {
   const navigation = useNavigation();
-  const [customerId, setCustomerId] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
+  const [customerId, setCustomerId] = useState<string>('QVX20241008-001');
+  const [password, setPassword] = useState<string>('QVX20241008-001');
   const [errors, setErrors] = useState<{customerId: string; password: string}>({
     customerId: '',
     password: '',
@@ -232,7 +231,6 @@ const LoginPage: React.FC = () => {
       hasErrors = true;
     }
 
-   
     if (hasErrors) {
       Alert.alert('Login Error', 'Invalid Customer ID or Password.');
     } else {
@@ -242,28 +240,23 @@ const LoginPage: React.FC = () => {
         password: password,
       };
       try {
-        const response = await axios.post(
-          `${Baseurl}/customer/login`,
-           data, 
-           {
+        const response = await axios.post(`${Baseurl}/customer/login`, data, {
           headers: {
             'Content-Type': 'application/json',
           },
-        },
-      );
-      
+        });
+
         console.log(response.data); // Log the complete response
-      
+
         if (response.data.status === 200 && response.data.response) {
           const customerData = response.data.response;
-          navigation.navigate(routes.Dashboard, { customerData });
+          navigation.navigate(routes.Dashboard, {customerData});
         } else {
           Alert.alert('Login Error', response.data.message || 'Login failed.');
         }
       } catch (error) {
         Alert.alert('Login Error', 'Invalid Customer ID or Password.');
       }
-      
     }
   };
 
