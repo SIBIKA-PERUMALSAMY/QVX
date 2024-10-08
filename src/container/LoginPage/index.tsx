@@ -202,8 +202,8 @@ const Baseurl = 'https://vx-bend-1.onrender.com';
 
 const LoginPage: React.FC = () => {
   const navigation = useNavigation();
-  const [customerId, setCustomerId] = useState<string>('QVX20241008-001');
-  const [password, setPassword] = useState<string>('QVX20241008-001');
+  const [customerId, setCustomerId] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
   const [errors, setErrors] = useState<{customerId: string; password: string}>({
     customerId: '',
     password: '',
@@ -250,7 +250,8 @@ const LoginPage: React.FC = () => {
 
         if (response.data.status === 200 && response.data.response) {
           const customerData = response.data.response;
-          navigation.navigate(routes.Dashboard, {customerData});
+          console.log(customerData, 'dfgh');
+          navigation.navigate(routes.Dashboard, {customerId: customerId});
         } else {
           Alert.alert('Login Error', response.data.message || 'Login failed.');
         }
