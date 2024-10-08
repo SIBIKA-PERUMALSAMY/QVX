@@ -52,6 +52,7 @@ const Dashboard = ({route}: any) => {
   const navigation = useNavigation();
 
   const GetCustomerDetails = async () => {
+    console.log(customerId != '');
     if (customerId != '') {
       try {
         const _res = await axios.get(
@@ -74,6 +75,7 @@ const Dashboard = ({route}: any) => {
           status: _data.status,
         };
         setcustomerDetails({...data});
+
         fetchKitsData();
       } catch (error) {
         console.error('Error fetching customer details', error);
