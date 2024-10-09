@@ -1,3 +1,4 @@
+
 export const routes = {
   Walkthrough: 'Walkthrough',
   Walkthroughh: 'Walkthroughh',
@@ -10,4 +11,5 @@ export const routes = {
   Settings: 'Settings',
   NotificationPage: 'NotificationPage',
   SplashScreen: 'SplashScreen',
+  cameraDetails:'cameraDetails',
 };

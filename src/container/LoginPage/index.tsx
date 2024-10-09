@@ -308,11 +308,11 @@ const LoginPage: React.FC = () => {
         buttonStyle={styles.nextButton}
       />
 
-      <Text
+      {/* <Text
         style={styles.forgotPassword}
         onPress={() => navigation.navigate(routes.ForgotPasswordMob)}>
         Forgot Password?
-      </Text>
+      </Text> */}
     </View>
   );
 };
