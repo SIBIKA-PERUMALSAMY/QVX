@@ -1,4 +1,459 @@
-import React, {useState, useEffect} from 'react';
+// import React, { useState, useEffect } from 'react';
+// import {
+//   View,
+//   Text,
+//   Image,
+//   ScrollView,
+//   TouchableOpacity,
+//   StyleSheet,
+//   ActivityIndicator,
+// } from 'react-native';
+// import { ICONS } from '../../images/image/icon';
+// import { IMAGE } from '../../images/image';
+// import { useNavigation } from '@react-navigation/native';
+// import { COLORS } from '../../component/Colors';
+// import { routes } from '../../routes';
+// import axios from 'axios';
+// import cameraDetails from '../CamDetails';
+
+// const Baseurl = 'https://vx-bend-1.onrender.com';
+
+// interface ICameraStatus {
+//   cameraNumber: number;
+//   ip: string;
+//   cameraPosition: string;
+//   status: string;
+//   Coverage: string;
+//   id: string;
+//   createdAt: string;
+// }
+
+// interface IKits {
+//   id: string;
+//   customerId: string;
+//   visionXId: string;
+//   latitude: string;
+//   longitude: string;
+//   location: string;
+//   numberOfCameras: number;
+//   cameraStatuses: ICameraStatus[];
+// }
+
+// const Dashboard = ({ route }: any) => {
+//   const customerId = route.params?.customerId || '';
+//   const [customerDetails, setCustomerDetails] = useState<any>(null);
+//   const [kitsData, setKitsData] = useState<IKits[]>([]);
+//   const [loading, setIsLoading] = useState(true);
+//   const [kitIndex, setKitIndex] = useState<number>(0);
+//   const navigation = useNavigation();
+//   const handleCameraPress = (cameraDetails: ICameraStatus, kitDetails: IKitDetails) => {
+//     // Navigate to the CameraDetails page with the camera and kit details as parameters
+//     navigation.navigate('cameraDetails', { cameraDetails, kitDetails });
+//   };
+  
+//   useEffect(() => {
+//     const fetchData = async () => {
+//       if (customerId) {
+//         try {
+//           const customerResponse = await axios.get(`${Baseurl}/customer/get-info/${customerId}`);
+//           setCustomerDetails(customerResponse.data.message);
+//           const kitsResponse = await axios.post(`${Baseurl}/kit/get-kits/${customerId}`);
+//           setKitsData(kitsResponse.data.response);
+//         } catch (error) {
+//           console.error('Error fetching data', error);
+//         } finally {
+//           setIsLoading(false);
+//         }
+//       } else {
+//         setIsLoading(false);
+//       }
+//     };
+
+//     fetchData();
+//   }, [customerId]);
+
+//   if (loading) {
+//     return (
+//       <View style={styles.loaderContainer}>
+//         <ActivityIndicator size="large" color={COLORS.SurfieGreen} />
+//       </View>
+//     );
+//   }
+
+//   return (
+//     <View style={styles.container}>
+//       <ScrollView style={styles.scrollContainer}>
+//         {/* Header Section */}
+//         <View style={styles.header}>
+//           {/* Profile Section */}
+//           <View style={styles.profileSection}>
+//             <TouchableOpacity
+//               onPress={() => navigation.navigate(routes.Settings, { User: customerDetails })}>
+//               <Image style={styles.ProfileAvatar} source={IMAGE.ProfileAvatarImg} />
+//             </TouchableOpacity>
+//             <View>
+//               <Text style={styles.welcomeText}>Welcome Back!</Text>
+//               <Text style={styles.userNameText}>{customerDetails?.name}</Text>
+//             </View>
+//             {/* <TouchableOpacity
+//               style={styles.notificationButton}
+//               onPress={() =>
+//                 navigation.navigate('NotificationPage', {
+//                   kitsDetails: kitsData[kitIndex]?.cameraStatuses.filter(val => val.status !== 'Online'),
+//                 })
+//               }>
+//               <Image style={styles.notificationIcon} source={ICONS.NotificationIcons} />
+//             </TouchableOpacity> */}
+//           </View>
+//         </View>
+
+//         {/* Banner section */}
+//         <View style={styles.bannerContainer}>
+//           <View style={styles.bannerTextContainer}>
+//             <View style={styles.BigDropDash} />
+//             <View style={styles.SmallDropDash1} />
+//             <Image source={IMAGE.HomeDashImg} style={styles.Home} />
+//             <Text style={styles.bannerTitle}>Secure Your Success with</Text>
+//             <Text style={styles.bannerSubtitle}>Quantum Vision X Solutions</Text>
+//             <View style={styles.SmallDropDash4} />
+//             <TouchableOpacity style={styles.exploreButton}>
+//               <Text style={styles.exploreButtonText}>Explore More</Text>
+//             </TouchableOpacity>
+//             <View style={styles.SmallDropDash2} />
+//           </View>
+//           <Image style={styles.bannerImage} source={IMAGE.BannerImage} />
+//         </View>
+
+//         {/* Monitoring Areas */}
+//         <View style={styles.monitoringContainer}>
+//           <Text style={styles.sectionTitle}>Monitoring Areas</Text>
+//           <View style={styles.areaCards}>
+//             {kitsData.map((kit, index) => (
+//               <TouchableOpacity key={kit.id} onPress={() => setKitIndex(index)}>
+//                 <View style={styles.areaCard}>
+//                   <Text style={styles.IDText}>{kit.customerId}</Text>
+//                   <Image style={styles.areaImage} source={IMAGE.HomeTempDashImg} />
+//                   <Text style={styles.areaText}>{kit.location}</Text>
+//                   <Text style={styles.cameraCount}>
+//                     Total Cameras: {kit.numberOfCameras}
+//                   </Text>
+//                 </View>
+//               </TouchableOpacity>
+//             ))}
+//           </View>
+//         </View>
+
+//         {/* Enlarged View */}
+//         <View style={styles.enlargeViewContainer}>
+//         <Text style={styles.sectionTitle}>Enlarged View</Text>
+        
+//           {/* {kitsData.length > 0 && kitsData[kitIndex]?.cameraStatuses.some(val => val.status !== 'Online') && (
+//             <Text style={styles.sectionTitle}>Enlarged View</Text>
+//           )} */}
+//           {kitsData[kitIndex]?.cameraStatuses.filter(val => val.status !== 'Online').map(val => (
+//             <View style={styles.warningBox} key={val.id}>
+//               <Text style={styles.warningText}>
+//                 {/* ⚠️ Motion Detected on  CAMERA - {val.cameraNumber} please ensure the problem {val.Coverage}. */}
+//                 ⚠️ Motion detected on  CAMERA - {val.cameraNumber}  in {val.cameraPosition}. Please ensure the problem.
+
+
+//               </Text>
+//             </View>
+//           ))}
+//           <View style={styles.camerasGrid}>
+//             {kitsData[kitIndex]?.cameraStatuses.map(val => (
+//               <TouchableOpacity 
+//           style={styles.cameraFeed} 
+//           key={val.id} 
+//           onPress={() => handleCameraPress(val)} // Pass camera details on press
+//         >
+//           <Image style={styles.cameraImage} source={IMAGE.HomeTempDashImg} />
+          
+//           <Text
+//             style={[
+//               styles.EnlInfoText,
+//               val.status === 'Online' ? styles.cameraStatusActive : styles.cameraStatusInactive,
+//             ]}
+//           >
+//             {val.status}
+//           </Text>
+//         </TouchableOpacity>
+//             ))}
+//           </View>
+//         </View>
+//       </ScrollView>
+//     </View>
+//   );
+// };
+
+// const styles = StyleSheet.create({
+//   container: {
+//     backgroundColor: 'white',
+//     flex: 1,
+//   },
+//   EnlInfoText:{
+//     fontSize: 16,
+//     fontWeight: 'bold',
+//     marginTop: 5,
+//     marginBottom:5,
+//     textAlign: 'center',
+//   },
+//   SmallDropDash1: {
+//     backgroundColor: 'rgba(255, 255, 255, 0.16)',
+//     height: 50,
+//     borderRadius: 50,
+//     width: 50,
+//     position: 'absolute',
+//     left: -20,
+//     top: -28,
+//   },
+//   SmallDropDash2: {
+//     backgroundColor: 'rgba(255, 255, 255, 0.16)',
+//     height: 50,
+//     borderRadius: 50,
+//     width: 50,
+//     position: 'absolute',
+//     left: 70,
+//     top: 120,
+//   },
+//   SmallDropDash4: {
+//     backgroundColor: 'rgba(255, 255, 255, 0.16)',
+//     height: 10,
+//     borderRadius: 50,
+//     width: 10,
+//     position: 'absolute',
+//     left: 140,
+//     top: -10,
+//   },
+//   header: {
+//     backgroundColor: '#1A4D8F',
+//   },
+//   BigDropDash: {
+//     position: 'absolute',
+//     right: -150,
+//     backgroundColor: '#103B74',
+//     top: -30,
+//     height: 150,
+//     borderRadius: 100,
+//     width: 150,
+//   },
+//   Home: {
+//     position: 'absolute',
+//     right: -120,
+//     top: -10,
+//     height: 150,
+//     width: 150,
+//   },
+//   IDText: {
+//     fontSize: 12,
+//     fontWeight: 'bold',
+//     textAlign: 'center',
+//   },
+//   profileSection: {
+//     flexDirection: 'row',
+//     justifyContent: 'flex-start',
+//     alignItems: 'center',
+//     paddingTop: 10,
+//     paddingLeft: 10,
+//   },
+//   welcomeText: {
+//     fontSize: 13,
+//     color: '#FFFFFF',
+//     paddingHorizontal: 20,
+//     paddingTop: 5,
+//   },
+//   userNameText: {
+//     fontSize: 13,
+//     fontWeight: 'bold',
+//     color: '#FFFFFF',
+//     paddingHorizontal: 20,
+//   },
+//   notificationButton: {
+//     flexDirection: 'row',
+//     justifyContent: 'flex-end',
+//     alignItems: 'center',
+//     position: 'absolute',
+//     right: 10,
+//     paddingTop: 20,
+//   },
+//   notificationIcon: {
+//     width: 30,
+//     height: 30,
+//   },
+//   bannerContainer: {
+//     flexDirection: 'row',
+//     justifyContent: 'space-between',
+//     alignItems: 'center',
+//     backgroundColor: '#1A4D8F',
+//     height: '25%',
+//     borderBottomLeftRadius: 20,
+//     borderBottomRightRadius: 20,
+//     paddingHorizontal: 0, // Removed left and right padding
+//   },
+//   bannerTextContainer: {
+//     flex: 1,
+//   },
+//   bannerTitle: {
+//     fontSize: 12,
+//     color: 'white',
+//     paddingLeft: 10,
+//   },
+//   bannerSubtitle: {
+//     fontSize: 14,
+//     color: 'white',
+//     paddingLeft: 10,
+//     marginVertical: 5,
+//   },
+//   exploreButton: {
+//     backgroundColor: 'rgba(255, 255, 255, 0.35)',
+//     padding: 8,
+//     borderRadius: 20,
+//     paddingLeft: 10,
+//     marginLeft: 10,
+//     marginTop: 10,
+//     width: 120,
+//   },
+//   exploreButtonText: {
+//     color: '#FFFFFF',
+//     fontWeight: 'bold',
+//   },
+//   bannerImage: {
+//     width: 100,
+//     height: 100,
+//     borderRadius: 10,
+//   },
+//   monitoringContainer: {
+//     marginVertical: 10,
+//     width: '100%', // Full-width container
+//   },
+//   sectionTitle: {
+//     fontSize: 16,
+//     fontWeight: 'bold',
+//     paddingLeft: 10,
+//     color:'black',
+//     marginBottom: 10,
+//   },
+//   areaCards: {
+//     flexDirection: 'row',
+//     flexWrap: 'wrap',
+//     justifyContent: 'space-around',
+//   },
+//   areaCard: {
+//     width: '100%',
+//     backgroundColor: '#f5f5f5',
+//     padding: 10,
+//     borderRadius: 10,
+//     marginBottom: 10,
+//   },
+//   areaText: {
+//     fontSize: 14,
+//     fontWeight: 'bold',
+//     marginTop: 5,
+//     marginBottom:5,
+//     textAlign: 'center',
+//   },
+//   cameraCount: {
+//     fontSize: 12,
+//     textAlign: 'center',
+//   },
+//   // cameraFeed: {
+//   //   width: '45%',
+//   //   marginBottom: 10,
+//   // },
+//   // cameraImage: {
+//   //   width: '100%',
+//   //   height: 150,
+//   //   borderRadius: 10,
+//   // },
+//   // cameraStatusActive: {
+//   //   position: 'absolute',
+//   //   bottom: 10,
+//   //   right: 10,
+//   //   backgroundColor: 'green',
+//   //   padding: 5,
+//   //   borderRadius: 5,
+//   //   color: 'white',
+//   //   fontWeight: 'bold',
+//   //   fontSize: 12,
+//   // },
+//   enlargeViewContainer: {
+//     paddingVertical: 10,
+//     marginBottom: 50,
+//   },
+//   warningBox: {
+//     backgroundColor: COLORS.lightRed,
+//     padding: 10,
+//     borderRadius: 8,
+//     marginBottom: 10,
+//   },
+//   warningText: {
+//     color: 'red',
+//     fontSize: 16,
+//     fontWeight: 'bold',
+//   },
+//   camerasGrid: {
+//     flexDirection: 'row',
+//     flexWrap: 'wrap',
+//     justifyContent: 'space-between',
+//     margin: 10,
+//   },
+//   cameraFeed: {
+//     width: '48%',
+//     marginBottom: 70,
+//     borderColor: 'gray',
+//     borderWidth: 0.5,
+//     borderRadius: 8,
+//   },
+//   cameraFeed2: {
+//     width: '48%',
+//     marginBottom: 70,
+//     borderColor: 'gray',
+//     borderWidth: 0.5,
+//     borderRadius: 8,
+//   },
+//   cameraImage: {
+//     width: '100%',
+//     height: 120,
+//     borderRadius: 8,
+//   },
+//   cameraStatusActive: {
+//     color: 'green',
+//     fontWeight: 'bold',
+//     textAlign: 'center',
+//     marginTop: 5,
+
+//     // position:'absolute',
+//     // left: 100,
+//     // top: 40,
+//   },
+//   cameraStatusInactive: {
+//     color: 'red',
+//     fontWeight: 'bold',
+//     textAlign: 'center',
+//     marginTop: 5,
+//   },
+//   loaderContainer: {
+//     flex: 1,
+//     justifyContent: 'center',
+//     alignItems: 'center',
+//   },
+//   ProfileAvatar: {
+//     width: 50,
+//     height: 50,
+//     borderRadius: 25,
+//   },
+//   scrollContainer: {
+//     flex: 1,
+//   },
+// });
+
+// export default Dashboard;
+
+
+
+
+
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -6,204 +461,113 @@ import {
   ScrollView,
   TouchableOpacity,
   StyleSheet,
-  Alert,
   ActivityIndicator,
 } from 'react-native';
-import {ICONS} from '../../images/image/icon';
-import {IMAGE} from '../../images/image';
-import {useNavigation} from '@react-navigation/native';
-import {COLORS} from '../../component/Colors';
-import {routes} from '../../routes';
-import ServiceBox from '../../component/ServicesBox';
-import AppointmentCard from '../../component/AppointmentCard';
-import moment from 'moment';
+import { ICONS } from '../../images/image/icon';
+import { IMAGE } from '../../images/image';
+import { useNavigation } from '@react-navigation/native';
+import { COLORS } from '../../component/Colors';
+import { routes } from '../../routes';
 import axios from 'axios';
+import cameraDetails from '../CamDetails';
 
 const Baseurl = 'https://vx-bend-1.onrender.com';
-let KitIndex = 0;
+
+interface ICameraStatus {
+  cameraNumber: number;
+  ip: string;
+  cameraPosition: string;
+  status: string;
+  Coverage: string;
+  _id: string;
+  createdAt: string;
+}
+
 interface IKits {
-  id: string;
+  _id: string;
   customerId: string;
   visionXId: string;
   latitude: string;
   longitude: string;
   location: string;
   numberOfCameras: number;
-  cameraStatuses: any[]; // Assuming cameraStatuses is an array of strings (statuses)
+  cameraStatuses: ICameraStatus[];
 }
-const Dashboard = ({route}: any) => {
+
+const Dashboard = ({ route }: any) => {
   const customerId = route.params?.customerId || '';
-  const _customerDetails = {
-    id: '',
-    customerId: '',
-    name: '',
-    password: '',
-    contactNumber: null,
-    email: '',
-    address: '',
-    pincode: null,
-    createdAt: '',
-    version: null,
-    status: false,
-  };
-  const [customerDetails, setcustomerDetails] = useState({..._customerDetails});
+  const [customerDetails, setCustomerDetails] = useState<any>(null);
   const [kitsData, setKitsData] = useState<IKits[]>([]);
-  const [loading, setIsLoading] = useState(false);
+  const [loading, setIsLoading] = useState(true);
+  const [kitIndex, setKitIndex] = useState<number>(0);
   const navigation = useNavigation();
 
-  const GetCustomerDetails = async () => {
-    console.log(customerId != '');
-    if (customerId != '') {
-      try {
-        const _res = await axios.get(
-          `https://vx-bend-1.onrender.com/customer/get-info/${customerId}`,
-        );
-        let _data = _res.data.message;
-        console.log(_data, 'data');
-        let data: any = {};
-        data = {
-          id: _data._id,
-          customerId: _data.customerId,
-          name: _data.name,
-          password: _data.password,
-          contactNumber: _data.contactNumber,
-          email: _data.email,
-          address: _data.address,
-          pincode: _data.pincode,
-          createdAt: _data.createdAt,
-          version: data._v,
-          status: _data.status,
-        };
-        setcustomerDetails({...data});
-
-        fetchKitsData();
-      } catch (error) {
-        console.error('Error fetching customer details', error);
-        setIsLoading(false);
-      }
-    } else {
-      setIsLoading(false);
-    }
-  };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const fetchKitsData = async () => {
     try {
-      const response = await axios.post(
-        `https://vx-bend-1.onrender.com/kit/get-kits/${customerId}`,
-      );
+      if (customerId) {
+        const customerResponse = await axios.get(`${Baseurl}/customer/get-info/${customerId}`);
+        setCustomerDetails(customerResponse.data.message);
 
-      let Data = response.data.response;
-      console.log(Data, 'respo');
-      for (var i = 0; i < Data.length; i++) {
-        let _temp: any = [];
-        let item = Data[i];
-        console.log(item.cameraStatuses, 'item');
-        for (var j = 0; j < item.cameraStatuses.length; j++) {
-          let _tempKits: any = [];
-          let _item = item.cameraStatuses[j];
-          _tempKits.push({
-            cameraNumber: 1,
-            ip: _item.ip,
-            cameraPosition: _item.cameraPosition,
-            status: _item.status,
-            Coverage: _item.Coverage,
-            id: _item._id,
-            crearedAt: _item.crearedAt,
-          });
-          if (item.cameraStatuses.length - 1 == j) {
-            _temp.push({
-              id: item._id,
-              customerId: item.customerId,
-              visionXId: item.visionXId,
-              latitude: item.latitude,
-              longitude: item.longitude,
-              location: item.location,
-              numberOfCameras: item.numberOfCameras,
-              cameraStatuses: [..._tempKits],
-            });
-            console.log(_temp.cameraStatuses, 'temp');
-            setKitsData([..._temp]);
-          }
-        }
+        const kitsResponse = await axios.post(`${Baseurl}/kit/get-kits/${customerId}`);
+        setKitsData(kitsResponse.data.response);
       }
-      setIsLoading(false);
     } catch (error) {
-      console.error('Error fetching Kits details', error);
+      console.error('Error fetching data', error);
+    } finally {
       setIsLoading(false);
     }
   };
 
   useEffect(() => {
-    setIsLoading(true);
-    GetCustomerDetails();
-  }, []);
+    fetchKitsData();
+    const intervalId = setInterval(() => {
+      fetchKitsData();
+    }, 5000); // Refresh every 5 seconds
+    // console.log('This will be called every 5 seconds');
+    return () => clearInterval(intervalId); // Clean up on unmount
+  }, [customerId, fetchKitsData]);
 
-  return loading ? (
-    <View style={styles.loaderContainer}>
-      <ActivityIndicator size="large" color="#28a745" />
-    </View>
-  ) : (
-    <View style={{flex: 1}}>
-      <ScrollView style={styles.container}>
-        {/* Header section */}
+  const handleCameraPress = (cameraDetails: ICameraStatus) => {
+    navigation.navigate('cameraDetails', { cameraDetails });
+  };
+
+  if (loading) {
+    return (
+      <View style={styles.loaderContainer}>
+        <ActivityIndicator size="large" color={COLORS.SurfieGreen} />
+      </View>
+    );
+  }
+
+  return (
+    <View style={styles.container}>
+      <ScrollView style={styles.scrollContainer}>
+        {/* Header Section */}
         <View style={styles.header}>
+          {/* Profile Section */}
           <View style={styles.profileSection}>
-            <View style={styles.userDetails}>
-              {/* <TouchableOpacity
-              // style={styles.SettingsButton}
-              onPress={() =>{  Alert.alert('Profile Avatar Pressed'); // Debug alert
-                navigation.navigate(routes.Settings, {User: params})}}
-
-              style={styles.SettingsButton}
-              >
-             
-              <Image style={styles.ProfileAvatar} source={IMAGE.ProfileAvatarImg} />
-            </TouchableOpacity> */}
-
-              <TouchableOpacity
-                onPress={() => {
-                  navigation.navigate(routes.Settings, {User: customerDetails});
-                }}
-                style={[styles.SettingsButton, {zIndex: 10}]} // Increase zIndex
-              >
-                <Image
-                  style={styles.ProfileAvatar}
-                  source={IMAGE.ProfileAvatarImg}
-                />
-              </TouchableOpacity>
-              <Text style={styles.welcomeText}>Welcome Back!</Text>
-              <Text style={styles.userNameText}>{customerDetails.name}</Text>
-            </View>
             <TouchableOpacity
-              style={styles.notificationButton}
-              onPress={() =>
-                navigation.navigate('NotificationPage', {
-                  kitsDeatils: kitsData[KitIndex].cameraStatuses.filter(
-                    val => val.status != 'Online',
-                  ),
-                })
-              }>
-              <Image
-                style={styles.notificationIcon}
-                source={ICONS.NotificationIcons}
-              />
+              onPress={() => navigation.navigate(routes.Settings, { User: customerDetails })}>
+              <Image style={styles.ProfileAvatar} source={IMAGE.ProfileAvatarImg} />
             </TouchableOpacity>
+            <View>
+              <Text style={styles.welcomeText}>Welcome Back!</Text>
+              <Text style={styles.userNameText}>{customerDetails?.name}</Text>
+            </View>
           </View>
         </View>
 
-        {/* Banner section */}
+        {/* Banner Section */}
         <View style={styles.bannerContainer}>
           <View style={styles.bannerTextContainer}>
             <View style={styles.BigDropDash} />
             <View style={styles.SmallDropDash1} />
             <Image source={IMAGE.HomeDashImg} style={styles.Home} />
             <Text style={styles.bannerTitle}>Secure Your Success with</Text>
-            {/* <View style={styles.SmallDropDash3}/> */}
-            <Text style={styles.bannerSubtitle}>
-              Quantum Vision X Solutions
-            </Text>
+            <Text style={styles.bannerSubtitle}>Quantum Vision X Solutions</Text>
             <View style={styles.SmallDropDash4} />
             <TouchableOpacity style={styles.exploreButton}>
-              {/* <View style={styles.SmallDropDash5}/> */}
               <Text style={styles.exploreButtonText}>Explore More</Text>
             </TouchableOpacity>
             <View style={styles.SmallDropDash2} />
@@ -215,91 +579,66 @@ const Dashboard = ({route}: any) => {
         <View style={styles.monitoringContainer}>
           <Text style={styles.sectionTitle}>Monitoring Areas</Text>
           <View style={styles.areaCards}>
-            {kitsData.map((val: any, index: number) => {
-              return (
-                <TouchableOpacity
-                  onPress={() => {
-                    KitIndex = index;
-                  }}>
-                  <View style={styles.areaCard}>
-                    <Text style={styles.IDText}>{val.customerId}</Text>
-                    <Image
-                      style={styles.areaImage}
-                      source={IMAGE.HomeTempDashImg}
-                    />
-                    <Text style={styles.areaText}>{val.location}</Text>
-                    <Text style={styles.cameraCount}>
-                      Total Cameras: {val.numberOfCameras}
-                    </Text>
-                  </View>
-                </TouchableOpacity>
-              );
-            })}
+            {kitsData.map((kit, index) => (
+              <TouchableOpacity key={kit.id} onPress={() => setKitIndex(index)}>
+                <View style={styles.areaCard}>
+                  <Text style={styles.IDText}>{kit.customerId}</Text>
+                  <Image style={styles.areaImage} source={IMAGE.HomeTempDashImg} />
+                  <Text style={styles.areaText}>{kit.location}</Text>
+                  <Text style={styles.cameraCount}>
+                    Total Cameras: {kit.numberOfCameras}
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            ))}
           </View>
         </View>
 
         {/* Enlarged View */}
         <View style={styles.enlargeViewContainer}>
-          {kitsData.length > 0 &&
-            kitsData[KitIndex].cameraStatuses.filter(
-              (val: any) => val.status != 'Online',
-            ).length > 0 && (
-              <Text style={styles.sectionTitle}>Enlarge View</Text>
-            )}
-
-          {kitsData[KitIndex]?.cameraStatuses &&
-            kitsData[KitIndex].cameraStatuses
-              .filter((val: any) => val.status != 'Online')
-              .map((val: any) => {
-                return (
-                  <View style={styles.warningBox}>
-                    <Text style={styles.warningText}>
-                      ⚠️ Motion Detected on ({val.cameraNumber}) please ensure
-                      the problem {val.Coverage}
-                    </Text>
-                  </View>
-                );
-              })}
-
+          <Text style={styles.sectionTitle}>Enlarged View</Text>
+          {kitsData[kitIndex]?.cameraStatuses.filter(val => val.status !== 'Online').map(val => (
+            <View style={styles.warningBox} key={val._id}>
+              <Text style={styles.warningText}>
+                ⚠️ Motion detected on CAMERA - {val.cameraNumber} in {val.cameraPosition}. Please ensure the problem.
+              </Text>
+            </View>
+          ))}
           <View style={styles.camerasGrid}>
-            {kitsData.length > 0 &&
-              kitsData[KitIndex].cameraStatuses.map((val: any) => {
-                return (
-                  <View style={styles.cameraFeed} key={val.id || Math.random()}>
-                    <Image
-                      style={styles.cameraImage}
-                      source={IMAGE.HomeTempDashImg}
-                    />
-                    <Text style={styles.cameraStatusActive}>{val.status}</Text>
-                  </View>
-                );
-              })}
+            {kitsData[kitIndex]?.cameraStatuses.map(val => (
+              <TouchableOpacity 
+                style={styles.cameraFeed} 
+                key={val._id} 
+                onPress={() => handleCameraPress(val)}
+              >
+                <Image style={styles.cameraImage} source={IMAGE.HomeTempDashImg} />
+                <Text
+                  style={[
+                    styles.EnlInfoText,
+                    val.status === 'Online' ? styles.cameraStatusActive : styles.cameraStatusInactive,
+                  ]}
+                >
+                  {val.status}
+                </Text>
+              </TouchableOpacity>
+            ))}
           </View>
         </View>
       </ScrollView>
-
-      {/* Floating Action Button for Chatbot */}
-      {/* <TouchableOpacity
-        style={styles.chatbotButton}
-        onPress={() => navigation.navigate('Chatbot')}
-      >
-        <Image source={ICONS.chatbot} style={styles.chatbotIcon} />
-      </TouchableOpacity> */}
     </View>
   );
 };
-
 const styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
     flex: 1,
-
-    // paddingHorizontal: 15,
   },
-  loaderContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+  EnlInfoText:{
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginTop: 5,
+    marginBottom:5,
+    textAlign: 'center',
   },
   SmallDropDash1: {
     backgroundColor: 'rgba(255, 255, 255, 0.16)',
@@ -310,7 +649,6 @@ const styles = StyleSheet.create({
     left: -20,
     top: -28,
   },
-
   SmallDropDash2: {
     backgroundColor: 'rgba(255, 255, 255, 0.16)',
     height: 50,
@@ -320,16 +658,6 @@ const styles = StyleSheet.create({
     left: 70,
     top: 120,
   },
-  // SmallDropDash3:{
-  //   backgroundColor:'rgba(255, 255, 255, 0.16)',
-  //   height: 10,
-  //   borderRadius:50,
-  //   width: 10,
-  //   position: 'absolute',
-  //   left: 300,
-  //   top: 110,
-  //     },
-
   SmallDropDash4: {
     backgroundColor: 'rgba(255, 255, 255, 0.16)',
     height: 10,
@@ -339,11 +667,8 @@ const styles = StyleSheet.create({
     left: 140,
     top: -10,
   },
-
   header: {
-    // marginVertical: 20,
     backgroundColor: '#1A4D8F',
-    // marginTop: 10,
   },
   BigDropDash: {
     position: 'absolute',
@@ -364,35 +689,34 @@ const styles = StyleSheet.create({
   IDText: {
     fontSize: 12,
     fontWeight: 'bold',
-    // marginTop: 10,
     textAlign: 'center',
   },
   profileSection: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
     alignItems: 'center',
-  },
-  userDetails: {
-    flexDirection: 'column',
+    paddingTop: 10,
+    paddingLeft: 10,
   },
   welcomeText: {
     fontSize: 13,
     color: '#FFFFFF',
-    paddingHorizontal: 60,
-    paddingTop: 10,
-    // position:'absolute',
-    // top: 20,
-    // left: 70
+    paddingHorizontal: 20,
+    paddingTop: 5,
   },
   userNameText: {
     fontSize: 13,
     fontWeight: 'bold',
     color: '#FFFFFF',
-    paddingHorizontal: 60,
+    paddingHorizontal: 20,
   },
   notificationButton: {
-    // padding: 5,
-    paddingHorizontal: 10,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    position: 'absolute',
+    right: 10,
+    paddingTop: 20,
   },
   notificationIcon: {
     width: 30,
@@ -403,10 +727,10 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     backgroundColor: '#1A4D8F',
-    padding: 10,
-    height: '20%',
+    height: '25%',
     borderBottomLeftRadius: 20,
     borderBottomRightRadius: 20,
+    paddingHorizontal: 0, // Removed left and right padding
   },
   bannerTextContainer: {
     flex: 1,
@@ -414,16 +738,20 @@ const styles = StyleSheet.create({
   bannerTitle: {
     fontSize: 12,
     color: 'white',
+    paddingLeft: 10,
   },
   bannerSubtitle: {
     fontSize: 14,
     color: 'white',
+    paddingLeft: 10,
     marginVertical: 5,
   },
   exploreButton: {
     backgroundColor: 'rgba(255, 255, 255, 0.35)',
     padding: 8,
     borderRadius: 20,
+    paddingLeft: 10,
+    marginLeft: 10,
     marginTop: 10,
     width: 120,
   },
@@ -436,75 +764,73 @@ const styles = StyleSheet.create({
     height: 100,
     borderRadius: 10,
   },
-  ProfileAvatar: {
-    // position:'absolute',
-    // left:10,
-    // top:8,
-    width: 40,
-    height: 40,
-  },
-  SettingsButton: {
-    position: 'absolute',
-    left: 10,
-    top: 10,
-  },
   monitoringContainer: {
-    marginVertical: 20,
+    marginVertical: 10,
+    width: '100%', // Full-width container
   },
   sectionTitle: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: 'bold',
+    paddingLeft: 10,
+    color:'black',
     marginBottom: 10,
   },
   areaCards: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    padding: 8,
+    flexWrap: 'wrap',
+    justifyContent: 'space-around',
   },
   areaCard: {
-    // backgroundColor: 'gray',
-    borderColor: '#A1A1A1',
-    borderWidth: 0.5,
-    padding: 10,
-    borderRadius: 30,
-    width: '48%',
-  },
-  areaImage: {
     width: '100%',
-    height: 100,
-    borderColor: '#A1A1A1',
-    borderWidth: 0.5,
-    borderRadius: 8,
+    backgroundColor: '#f5f5f5',
+    padding: 10,
+    borderRadius: 10,
+    marginBottom: 10,
   },
   areaText: {
     fontSize: 14,
     fontWeight: 'bold',
-    marginTop: 10,
-    textAlign: 'center',
-  },
-  areaDetails: {
-    fontSize: 12,
-    color: COLORS.gray,
     marginTop: 5,
+    marginBottom:5,
     textAlign: 'center',
   },
   cameraCount: {
     fontSize: 12,
     textAlign: 'center',
-    marginTop: 5,
   },
+  // cameraFeed: {
+  //   width: '45%',
+  //   marginBottom: 10,
+  // },
+  // cameraImage: {
+  //   width: '100%',
+  //   height: 150,
+  //   borderRadius: 10,
+  // },
+  // cameraStatusActive: {
+  //   position: 'absolute',
+  //   bottom: 10,
+  //   right: 10,
+  //   backgroundColor: 'green',
+  //   padding: 5,
+  //   borderRadius: 5,
+  //   color: 'white',
+  //   fontWeight: 'bold',
+  //   fontSize: 12,
+  // },
   enlargeViewContainer: {
-    marginVertical: 20,
+    paddingVertical: 10,
+    marginBottom: 50,
   },
   warningBox: {
     backgroundColor: COLORS.lightRed,
     padding: 10,
     borderRadius: 8,
-    marginBottom: 15,
+    marginBottom: 10,
   },
   warningText: {
     color: 'red',
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: 'bold',
   },
   camerasGrid: {
@@ -515,14 +841,14 @@ const styles = StyleSheet.create({
   },
   cameraFeed: {
     width: '48%',
-    marginBottom: 20,
+    marginBottom: 70,
     borderColor: 'gray',
     borderWidth: 0.5,
     borderRadius: 8,
   },
   cameraFeed2: {
     width: '48%',
-    marginBottom: 100,
+    marginBottom: 70,
     borderColor: 'gray',
     borderWidth: 0.5,
     borderRadius: 8,
@@ -548,20 +874,18 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: 5,
   },
-  chatbotButton: {
-    position: 'absolute',
-    bottom: 20,
-    right: 20,
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    backgroundColor: COLORS.primary,
+  loaderContainer: {
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  chatbotIcon: {
-    width: 40,
-    height: 40,
+  ProfileAvatar: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+  },
+  scrollContainer: {
+    flex: 1,
   },
 });
 

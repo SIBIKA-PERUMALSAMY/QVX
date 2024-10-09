@@ -14,6 +14,7 @@ import Settings from '../container/Settings';
 import NotificationPage from '../container/NotificationPage';
 import { COLORS } from '../component/Colors';
 import SplashScreen from '../container/Splash';
+import cameraDetails from '../container/CamDetails';
 
 const Stack = createStackNavigator(); // Creating the Stack Navigator
 
@@ -119,6 +120,20 @@ const MyStack: React.FC = () => {
                 name={routes.NotificationPage}
                 component={NotificationPage}
                 options={{ title: 'Notification', headerShown: true,
+                
+                    headerStyle: {
+                      backgroundColor: COLORS.SurfieGreen, // Set your desired background color here
+                    },
+                    headerTintColor: 'white', // Optional: Set the color of the text/icons in the header
+                    headerTitleStyle: {
+                      fontWeight: 'bold', // Optional: Customize the title text
+                    }, }}
+            />
+
+<Stack.Screen
+                name={routes.cameraDetails}
+                component={cameraDetails}
+                options={{ title: 'Camera Details', headerShown: true,
                 
                     headerStyle: {
                       backgroundColor: COLORS.SurfieGreen, // Set your desired background color here
