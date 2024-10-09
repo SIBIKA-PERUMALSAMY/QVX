@@ -63,13 +63,13 @@ export const Settings = ({route}: {route: any}) => {
           <Text style={styles.name}>{User.name}</Text>
 
           {User.email ? (
-            <Text style={[styles.name, {fontSize: 16, fontWeight: '600'}]}>
+            <Text style={[styles.name, {fontSize: 16,color:'gray', fontWeight: '600'}]}>
               {User.email}
             </Text>
           ) : (
             ''
           )}
-          <Text style={[styles.name, {fontSize: 16, fontWeight: '600'}]}>
+          <Text style={[styles.name, {fontSize: 16,color:'gray', fontWeight: '600'}]}>
             {User.contactNumber}
           </Text>
         </View>
