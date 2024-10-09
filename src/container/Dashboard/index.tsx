@@ -595,34 +595,52 @@ const Dashboard = ({ route }: any) => {
         </View>
 
         {/* Enlarged View */}
-        <View style={styles.enlargeViewContainer}>
-          <Text style={styles.sectionTitle}>Enlarged View</Text>
-          {kitsData[kitIndex]?.cameraStatuses.filter(val => val.status !== 'Online').map(val => (
-            <View style={styles.warningBox} key={val._id}>
-              <Text style={styles.warningText}>
-                ⚠️ Motion detected on CAMERA - {val.cameraNumber} in {val.cameraPosition}. Please ensure the problem.
-              </Text>
-            </View>
-          ))}
-          <View style={styles.camerasGrid}>
-            {kitsData[kitIndex]?.cameraStatuses.map(val => (
-              <TouchableOpacity 
-                style={styles.cameraFeed} 
-                key={val._id} 
-                onPress={() => handleCameraPress(val)}
-              >
-                <Image style={styles.cameraImage} source={IMAGE.HomeTempDashImg} />
-                <Text
-                  style={[
-                    styles.EnlInfoText,
-                    val.status === 'Online' ? styles.cameraStatusActive : styles.cameraStatusInactive,
-                  ]}
-                >
-                  {val.status}
-                </Text>
-              </TouchableOpacity>
-            ))}
-          </View>
+<View style={styles.enlargeViewContainer}>
+  {/* Enlarged View Heading */}
+  <Text style={styles.sectionTitle}>
+    Enlarged View of {kitsData[kitIndex]?.location}
+  </Text>
+
+  {/* Warning Boxes for Offline Cameras */}
+  {kitsData[kitIndex]?.cameraStatuses.filter(val => val.status !== 'Online').map(val => (
+    <View style={styles.warningBox} key={val._id}>
+      <Text style={styles.warningText}>
+        ⚠️ Motion detected on CAMERA - {val.cameraNumber} in {val.cameraPosition}. Please ensure the problem.
+      </Text>
+    </View>
+  ))}
+
+  {/* Cameras Grid */}
+  <View style={styles.camerasGrid}>
+    {kitsData?.[kitIndex]?.cameraStatuses?.map(val => (
+      <TouchableOpacity 
+        style={styles.cameraFeed} 
+        key={val._id} 
+        onPress={() => handleCameraPress(val)}
+      >
+        <Image style={styles.cameraImage} source={IMAGE.HomeTempDashImg} />
+        <Text style={styles.EnlInfoText}> {val.cameraPosition}</Text>
+        <Text
+          style={[
+            styles.EnlInfoText,
+            val.status === 'Online' ? styles.cameraStatusActive : styles.cameraStatusInactive,
+          ]}
+        >
+          {val.status}
+        </Text>
+        <Text
+          style={[
+            styles.EnlInfoText,
+            val.Coverage === 'Screen not interrupted' ? styles.cameraStatusActive : styles.cameraStatusInactive,
+          ]}
+        >
+          {val.Coverage}
+        </Text>
+      </TouchableOpacity>
+    ))}
+  </View>
+
+
         </View>
       </ScrollView>
     </View>
@@ -637,7 +655,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     marginTop: 5,
-    marginBottom:5,
+    // marginBottom:5,
     textAlign: 'center',
   },
   SmallDropDash1: {
