@@ -688,6 +688,7 @@ const styles = StyleSheet.create({
   },
   IDText: {
     fontSize: 12,
+    color:'black',
     fontWeight: 'bold',
     textAlign: 'center',
   },
@@ -793,10 +794,13 @@ const styles = StyleSheet.create({
     marginTop: 5,
     marginBottom:5,
     textAlign: 'center',
+    color:'black',
+
   },
   cameraCount: {
     fontSize: 12,
     textAlign: 'center',
+    color:'black',
   },
   // cameraFeed: {
   //   width: '45%',
